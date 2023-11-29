@@ -1,4 +1,12 @@
 html {
   background-color: #143547;
   font-family: DM Sans;
+  color: white;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+  font-weight: 200;
+  font-style: italic;
 }

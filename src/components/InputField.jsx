@@ -13,7 +13,7 @@ function InputField({ onSearch }) {
   return (
     <Container>
       <SearchField
-        type="text"
+        type="Text"
         placeholder="Enter text..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
@@ -37,7 +37,11 @@ const SearchField = styled.input`
   border: 2px solid white;
   background: transparent;
   border-radius: 30px;
-  padding: 0 15px; /* Adjust padding as needed */
+  padding: 0 15px;
+
+  ::placeholder {
+    color: white;
+  }
 `;
 
 const SearchButton = styled.button`
