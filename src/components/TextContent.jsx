@@ -3,21 +3,18 @@ import styled from "styled-components";
 
 function TextContent({ searchResult }) {
   if (!searchResult) {
-    return null;
+    return null; // TOMT FÄLT FRÅN BÖRJAN UTAN FELMEDDELANDE
   }
 
   if (!Array.isArray(searchResult) || searchResult.length === 0) {
-    return <p role="message">No results found</p>;
+    return <p>No results found</p>; // OM MAN SÖKER PÅ ORD SOM INTE FINNS
   }
 
   const { word, phonetics, meanings, license, sourceUrls } = searchResult[0];
 
-  // if (!meanings || !Array.isArray(meanings) || meanings.length === 0) {
-  //   return <p>No meanings found for this word</p>;
-  // }
-
   return (
     <BigContainer>
+      {/* ORDER */}
       <WordTitle data-testid="word" role="heading">
         {word}
       </WordTitle>
@@ -25,7 +22,7 @@ function TextContent({ searchResult }) {
       {phonetics && (
         <div>
           <PartOfSpeechTitle>Phonetics</PartOfSpeechTitle>
-
+          {/* LJDFIL */}
           {phonetics.slice(0, 5).map((phonetic, index) => (
             <div key={index}>
               {phonetic.audio && (
@@ -37,6 +34,7 @@ function TextContent({ searchResult }) {
               <PhoneticText>{phonetic.text}</PhoneticText>
               {phonetic.license && (
                 <div>
+                  {/* LICENSER */}
                   <p>License Name: {phonetic.license.name}</p>
                   <p>
                     License URL:
@@ -55,6 +53,7 @@ function TextContent({ searchResult }) {
         </div>
       )}
       <div>
+        {/* MEANINGS */}
         <PartOfSpeechTitle>Meanings</PartOfSpeechTitle>
         {meanings.map((meaning, i) => (
           <div key={i}>
