@@ -48,6 +48,23 @@ describe("Dictionary content", () => {
       expect(wordElement).toBeInTheDocument();
     });
   });
+
+  // SÖK MED ENTER-TANGENT
+  test("fetches data when the Enter key is pressed", async () => {
+    render(<App />);
+    // Hitta knapp och inputfält
+    const inputElement = screen.getByRole("textbox");
+    const user = userEvent.setup();
+    // Skriv in "Happy" i inputfältet
+    await user.type(inputElement, "Happy");
+    // Sök via enter-tangent
+    await user.type(inputElement, "{enter}");
+    // Vänta på att order ska renderas
+    await waitFor(() => {
+      const wordElement = screen.getByRole("heading");
+      expect(wordElement).toBeInTheDocument();
+    });
+  });
 });
 
 describe("Inputfield", () => {
@@ -63,22 +80,6 @@ describe("Inputfield", () => {
     // Vänta på att Inputfältet ska innehålla "happy"
     await waitFor(() => {
       expect(inputElement).toHaveValue("happy");
-    });
-  });
-
-  test("fetches data when the Enter key is pressed", async () => {
-    render(<App />);
-    // Hitta knapp och inputfält
-    const inputElement = screen.getByRole("textbox");
-    const user = userEvent.setup();
-    // Skriv in "Happy" i inputfältet
-    await user.type(inputElement, "Happy");
-    // Sök via enter-tangent
-    await user.type(inputElement, "{enter}");
-    // Vänta på att order ska renderas
-    await waitFor(() => {
-      const wordElement = screen.getByRole("heading");
-      expect(wordElement).toBeInTheDocument();
     });
   });
 
