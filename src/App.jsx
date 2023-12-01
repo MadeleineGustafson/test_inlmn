@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-
 import InputField from "./components/InputField";
 import TextContent from "./components/TextContent";
 
@@ -8,7 +7,7 @@ function App() {
   const [searchResult, setSearchResult] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Hämta API
+  // HÄMTA API
   const handleSearch = async (word) => {
     setIsLoading(true);
     try {
@@ -25,7 +24,7 @@ function App() {
     setIsLoading(false);
   };
 
-  // Header is link to startpage/ clear searchfield
+  // HEADERN ÄR LÄNK TILL STARTSIDA/NOLLSTÄLL SÖKFÄLTET
   const handleHeaderClick = () => {
     setSearchResult("");
   };
