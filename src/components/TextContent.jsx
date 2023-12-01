@@ -3,31 +3,37 @@ import styled from "styled-components";
 
 function TextContent({ searchResult }) {
   if (!searchResult) {
-    return null; // Or you can return an empty fragment <></> to render nothing
+    return null;
   }
 
   if (!Array.isArray(searchResult) || searchResult.length === 0) {
-    return <p>No results found</p>;
+    return <p role="message">No results found</p>;
   }
 
   const { word, phonetics, meanings, license, sourceUrls } = searchResult[0];
 
-  if (!meanings || !Array.isArray(meanings) || meanings.length === 0) {
-    return <p>No meanings found for this word</p>;
-  }
+  // if (!meanings || !Array.isArray(meanings) || meanings.length === 0) {
+  //   return <p>No meanings found for this word</p>;
+  // }
 
   return (
     <BigContainer>
-      <WordTitle>{word}</WordTitle>
+      <WordTitle data-testid="word" role="heading">
+        {word}
+      </WordTitle>
+
       {phonetics && (
         <div>
           <PartOfSpeechTitle>Phonetics</PartOfSpeechTitle>
+
           {phonetics.slice(0, 5).map((phonetic, index) => (
             <div key={index}>
-              <audio controls>
-                <source src={phonetic.audio} type="audio/mpeg" />
-                Your browser does not support the audio element.
-              </audio>
+              {phonetic.audio && (
+                <AudioControl controls data-testid="audio-player" role="audio">
+                  <source src={phonetic.audio} type="audio/mpeg" />
+                  Your browser does not support the audio element.
+                </AudioControl>
+              )}
               <PhoneticText>{phonetic.text}</PhoneticText>
               {phonetic.license && (
                 <div>
@@ -52,25 +58,27 @@ function TextContent({ searchResult }) {
         <PartOfSpeechTitle>Meanings</PartOfSpeechTitle>
         {meanings.map((meaning, i) => (
           <div key={i}>
-            <PartOfSpeechTitle>{meaning.partOfSpeech}</PartOfSpeechTitle>
+            <PartOfSpeechTitle2>{meaning.partOfSpeech}</PartOfSpeechTitle2>
             <DetailsList>
               {meaning.definitions.length > 0 && (
                 <>
-                  <h3>Definitions</h3>
+                  <TitleStyle>Definitions</TitleStyle>
                   {meaning.definitions.slice(0, 5).map((definition, j) => (
                     <div key={j}>
-                      <p>{definition.definition}</p>
+                      <FontStyle>- {definition.definition}</FontStyle>
                     </div>
                   ))}
                 </>
               )}
-              {meaning.definitions.some((definition) => definition.example) && (
+              {meaning.definitions
+                .slice(0, 5)
+                .some((definition) => definition.example) && (
                 <>
-                  <h3>Examples</h3>
-                  {meaning.definitions.map((definition, j) => (
+                  <TitleStyle>Examples</TitleStyle>
+                  {meaning.definitions.slice(0, 5).map((definition, j) => (
                     <div key={j}>
                       {definition.example && (
-                        <p>Example: {definition.example}</p>
+                        <FontStyle>- {definition.example}</FontStyle>
                       )}
                     </div>
                   ))}
@@ -78,30 +86,24 @@ function TextContent({ searchResult }) {
               )}
               {meaning.synonyms && meaning.synonyms.length > 0 && (
                 <>
-                  <h3>Synonyms</h3>
-                  <SynonymsList>
-                    {meaning.synonyms
-                      .slice(0, 5)
-                      .map((synonym, synonymIndex) => (
-                        <div key={synonymIndex}>
-                          <p>{synonym}</p>
-                        </div>
-                      ))}
-                  </SynonymsList>
+                  <TitleStyle>Synonyms</TitleStyle>
+
+                  {meaning.synonyms.slice(0, 5).map((synonym, synonymIndex) => (
+                    <div key={synonymIndex}>
+                      <FontStyle>- {synonym}</FontStyle>
+                    </div>
+                  ))}
                 </>
               )}
               {meaning.antonyms && meaning.antonyms.length > 0 && (
                 <>
-                  <h3>Antonyms</h3>
-                  <AntonymsList>
-                    {meaning.antonyms
-                      .slice(0, 5)
-                      .map((antonym, antonymIndex) => (
-                        <div key={antonymIndex}>
-                          <p>{antonym}</p>
-                        </div>
-                      ))}
-                  </AntonymsList>
+                  <TitleStyle>Antonyms</TitleStyle>
+
+                  {meaning.antonyms.slice(0, 5).map((antonym, antonymIndex) => (
+                    <div key={antonymIndex}>
+                      <FontStyle>- {antonym}</FontStyle>
+                    </div>
+                  ))}
                 </>
               )}
             </DetailsList>
@@ -110,7 +112,7 @@ function TextContent({ searchResult }) {
       </div>
       {sourceUrls && (
         <div>
-          <h3>Source URLs</h3>
+          <h2>Source URLs</h2>
           <ul>
             {sourceUrls.map((url, index) => (
               <li key={index}>
@@ -137,31 +139,45 @@ const BigContainer = styled.div`
   width: 600px;
 `;
 
+const FontStyle = styled.p`
+  font-family: Anonymous pro;
+`;
+
+const TitleStyle = styled.h3`
+  border-bottom: 1px solid #f77731;
+`;
+
+const AudioControl = styled.audio`
+  border: 2px solid #f77731;
+  border-radius: 30px;
+`;
+
 const WordTitle = styled.h2`
-  color: #fff;
-  font-size: 2rem;
+  color: #f77731;
+  font-size: 3.5rem;
+  font-weight: 200;
+  font-family: Anonymous pro;
+  padding-left: 1rem;
+  border-left: 2px solid black;
 `;
 
 const PartOfSpeechTitle = styled.h3`
-  color: #fff;
+  color: ##21201f;
+  font-size: 2rem;
+`;
+
+const PartOfSpeechTitle2 = styled.h3`
+  color: ##21201f;
   font-size: 1.5rem;
 `;
 
 const PhoneticText = styled.p`
-  color: #fff;
+  color: ##21201f;
 `;
 
 const DetailsList = styled.ul`
   list-style-type: none;
   font-weight: 200;
-`;
-
-const SynonymsList = styled.ul`
-  list-style-type: none;
-`;
-
-const AntonymsList = styled.ul`
-  list-style-type: none;
 `;
 
 export default TextContent;

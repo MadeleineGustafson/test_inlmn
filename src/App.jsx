@@ -23,10 +23,18 @@ function App() {
     setIsLoading(false);
   };
 
+  const handleHeaderClick = () => {
+    // Set the searchResult to null or an empty string based on your requirement
+    setSearchResult(""); // Or setSearchResult('') for an empty string
+  };
+
   return (
     <Centered>
       <div>
-        <HeaderText>Dictionary</HeaderText>
+        <a href="" onClick={handleHeaderClick}>
+          <HeaderText>My dictionary</HeaderText>
+        </a>
+
         <InputField onSearch={handleSearch} />
         {isLoading ? (
           <p>Loading...</p>
@@ -43,12 +51,14 @@ const Centered = styled.div`
   justify-content: center;
   align-items: flex-start;
   width: 100vw;
-  background-color: #143547;
+  background-color: #f5f3f0;
 `;
 
 const HeaderText = styled.h1`
-  color: #fff;
-  font-size: 4rem;
+  color: #05121a;
+  font-size: 2.5rem;
+  text-align: center;
+  font-family: Anonymous pro;
 `;
 
 export default App;
