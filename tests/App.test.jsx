@@ -20,7 +20,7 @@ describe("Dictionary content", () => {
     const searchField = screen.getByRole("textbox");
     const searchButton = screen.getByRole("button");
     const user = userEvent.setup();
-    // Sök på "Happy"
+    // Skriv in "Happy"
     await user.type(searchField, "Happy");
     await user.click(searchButton);
     // Vänta på att audio-spelare ska renderas
@@ -39,7 +39,7 @@ describe("Dictionary content", () => {
     const inputElement = screen.getByRole("textbox");
     const buttonElement = screen.getByRole("button");
     const user = userEvent.setup();
-    // Sök på "Happy"
+    // Skriv in "Happy"
     await user.type(inputElement, "Happy");
     await user.click(buttonElement);
     // Vänta på att order ska renderas i ordlistan
